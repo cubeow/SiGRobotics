@@ -12,21 +12,21 @@ from lerobot.utils.visualization_utils import (
 # 1. Configure the Follower Arm and Cameras
 # Note: Check outputs/captured_images to assign the right index to your arm camera.
 robot_config = OmxFollowerConfig(
-    port="/dev/tty.usbmodem1301",  # Replace with follower U2D2 port
+    port="/dev/tty.usbmodem101",  # Replace with follower U2D2 port
     id="omx_follower",
     cameras={
         # U20CAM-720P on the arm (usually index 1 if 0 is your Mac's built-in webcam)
-        "wrist": OpenCVCameraConfig(
-            index_or_path=0,
-            width=1280,
-            height=720,
-            fps=30,
-            color_mode=ColorMode.RGB,
-            rotation=Cv2Rotation.NO_ROTATION,
-        ),
+        # "wrist": OpenCVCameraConfig(
+        #     index_or_path=0,
+        #     width=1280,
+        #     height=720,
+        #     fps=30,
+        #     color_mode=ColorMode.RGB,
+        #     rotation=Cv2Rotation.NO_ROTATION,
+        # ),
         # Optional: Mac built-in webcam or secondary overhead camera
         "top": OpenCVCameraConfig(
-            index_or_path=1,
+            index_or_path=0,
             width=1280,
             height=720,
             fps=30,
@@ -38,7 +38,7 @@ robot_config = OmxFollowerConfig(
 
 # 2. Configure the Leader Arm
 teleop_config = OmxLeaderConfig(
-    port="/dev/tty.usbmodem1401",  # Replace with leader U2D2 port
+    port="/dev/tty.usbmodem1101",  # Replace with leader U2D2 port
     id="omx_leader",
 )
 
@@ -61,7 +61,7 @@ try:
     while True:
         start_time = time.perf_counter()
 
-        # Capture state (joint positions + camera frames)
+        # Current state of the follower - joint positions and camera frames
         observation = robot.get_observation()
 
         # Read leader joint positions and send to follower
